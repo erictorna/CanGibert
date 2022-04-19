@@ -1,0 +1,4 @@
+DATAROOT=/home/idiap/data/ABS_CanGibert_MartaFigueras_Odontologia
+RMD2HTML=R/run-knit2html.R
+
+BASE = /home/idiap/projects/dadesRuth

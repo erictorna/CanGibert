@@ -1,0 +1,54 @@
+---
+title: "Ratio + Prest_Deriv"
+date: '`r Sys.time()`'
+author: 'ETN'
+output: 
+  html_document: 
+    toc: yes
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+library(ggpubr)
+library(flextable)
+knitr::opts_chunk$set(echo = FALSE)
+load('dadesgir.RData')
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+# Correlation RATIO vs seg, 7Fluor and 12Fluor
+
+```{r, results='asis', fig.height = 8, fig.width = 10}
+cols = colnames(gir)
+cols = cols[c(16:21)]
+cols = cols[-c(4,5,6)]
+
+for (i in cols) {
+  cat(sprintf("\n\n## %s \n\n", i))
+  print(ggscatter(gir, x = i, y = 'RATIO', color = 'ABS',
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = i, ylab = "RATIO") +
+  geom_smooth(method=lm, na.rm = TRUE, fullrange= TRUE,
+              aes(group=1),colour="black"))
+   cat('----------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
+}
+
+```
+
+# T.test of PREST_DERIV against all other variables
+
+```{r}
+cols = colnames(gir)
+cols = cols[-c(1,21)]
+
+pvalues = c()
+testdata = gir[-1]
+ttestlist = lapply(testdata[-20], function(x) t.test(x ~ testdata$PREST_DERIV))
+for (i in ttestlist) {
+ pvalues = c(pvalues, i$p.value) 
+}
+table = cbind(data.frame(cols), data.frame(pvalues))
+table$pvalues <- round(table$pvalues, 3)
+table[table <= 0.05] <- '<0.05'
+autofit(flextable(table))
+```

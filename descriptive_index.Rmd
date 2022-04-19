@@ -1,0 +1,18 @@
+---
+title: "ISC en salut bucodental infantil"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+---
+
+
+# Catalunya
+
+* Correlations[[html]](descriptiva_CAT.html)
+
+# Girona
+
+* Correlations[[html]](descriptiva_GIR.html)
+
+* RATIOS[[html]](descriptiva_ratios_gir.html)
