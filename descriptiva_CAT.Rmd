@@ -10,6 +10,8 @@ output:
 
 ```{r setup, include=FALSE}
 library(ggpubr)
+library(tidyverse)
+library(dplyr)
 knitr::opts_chunk$set(echo = FALSE)
 load('corrcat.RData')
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
@@ -19,7 +21,8 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 # Correlacio ISC 2019 ~ % immigrants
 ```{r, results='asis', fig.height = 8, fig.width = 10}
-print(ggscatter(corr, x = '% immigrants', y = 'ISC 2019', color = 'Regió',
+corr <- corr %>% select(ABS, Regió, `ISC 2019`, `% immigrants`,`CAODT_ 12a`, `codT_ 6_14a`, codAF_7, Perc_seg, IR_12a)
+print(ggscatter(corr, x = '% immigrants', y = 'ISC 2019',  color = 'Regió',
         cor.coef = TRUE, cor.method = "pearson",
         xlab = '% immigrants', ylab = "ISC_2019") +
 geom_smooth(method=lm, na.rm = TRUE, fullrange= TRUE,
@@ -31,7 +34,7 @@ geom_smooth(method=lm, na.rm = TRUE, fullrange= TRUE,
 
 ```{r, results='asis', fig.height = 8, fig.width = 10}
 cols = colnames(corr)
-cols = cols[-c(1,2,3,20)]
+cols = cols[-c(1,2,3,4)]
 
 for (i in cols) {
   cat(sprintf("\n\n## %s \n\n", i))
@@ -49,7 +52,7 @@ for (i in cols) {
 
 ```{r, results='asis', fig.height = 8, fig.width = 10}
 cols = colnames(corr)
-cols = cols[-c(1,2,3,20)]
+cols = cols[-c(1,2,3,4)]
 
 for (i in cols) {
   cat(sprintf("\n\n## %s \n\n", i))
